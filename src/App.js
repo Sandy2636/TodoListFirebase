@@ -20,7 +20,6 @@ import { cardClasses } from "@mui/material";
 function App() {
   const [todos, setTodos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [unpinFirst, setUnpinFirst] = useState(0);
   useEffect(() => {
     setIsLoading(true);
     const q = query(collection(db, "todos"));
@@ -52,12 +51,14 @@ function App() {
 
   const upMove = async (todo, PrevTodo) => {
     setIsLoading(true);
-    await updateDoc(doc(db, "todos", todo.id), {
-      priority: PrevTodo.priority,
-    });
-    await updateDoc(doc(db, "todos", PrevTodo.id), {
-      priority: todo.priority,
-    });
+    await Promise.all([
+      updateDoc(doc(db, "todos", todo.id), {
+        priority: PrevTodo.priority,
+      }),
+      updateDoc(doc(db, "todos", PrevTodo.id), {
+        priority: todo.priority,
+      }),
+    ]);
     setIsLoading(false);
   };
 
@@ -101,7 +102,7 @@ function App() {
         break;
       }
     }
-    return todos[i].priority - 1;
+    return todos[i]?.priority - 1 || todos[todos.length - 1].priority + 1;
   };
   return (
     <>

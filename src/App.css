@@ -119,13 +119,33 @@ form input {
 .button-delete {
   color: rgb(255, 122, 98);
 }
-@media screen and (max-width: 667px) {
+@media screen and (max-width: 887px) {
   .task_container {
     width: 90%;
   }
   .task {
     margin-right: 0px;
   }
+  .todo{
+    width: 100%;
+    padding: 10px 5px;
+  }
+  .todo_container{
+    width: 80%;
+  }
+  #i{
+    font-size: 18px;
+  }
+  .todo input{
+    font-size: 20px;
+  }
+  form{
+    width: 75%;
+  }
+  form input {
+  width: 90%;
+  }
+  
 }
 input:focus,
 button:focus {

@@ -43,7 +43,7 @@ export default function Todo({
               ? "button-complete"
               : "disabled"
           }
-          disabled={todo.pinned ? true : PrevTodo?.pinned}
+          disabled={todo.pinned ? true : PrevTodo?.pinned} // Check the Condtion for PrevTodo if it is Pinned it Will Disable it
           onClick={() => upMove(todo, PrevTodo)}
         >
           <ArrowDropUpIcon id="i" />
