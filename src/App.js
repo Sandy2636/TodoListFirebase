@@ -36,16 +36,16 @@ function App() {
     };
   }, []);
 
-  console.log("todos:", todos);
-
   const downMove = async (todo, followingTodo) => {
     setIsLoading(true);
-    await updateDoc(doc(db, "todos", todo.id), {
-      priority: followingTodo.priority,
-    });
-    await updateDoc(doc(db, "todos", followingTodo.id), {
-      priority: todo.priority,
-    });
+    await Promise.all(
+      updateDoc(doc(db, "todos", todo.id), {
+        priority: followingTodo.priority,
+      }),
+      updateDoc(doc(db, "todos", followingTodo.id), {
+        priority: todo.priority,
+      })
+    );
     setIsLoading(false);
   };
 
