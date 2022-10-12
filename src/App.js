@@ -78,12 +78,17 @@ function App() {
   );
 
   const addPin = async (todo) => {
-    setIsLoading(true);
-    await updateDoc(doc(db, "todos", todo.id), {
-      priority: todos[0]?.priority - 1,
-      pinned: true,
-    });
-    setIsLoading(false);
+    if (todos[0].pinned) {
+      alert("Only One Todo Can be Pinned at One time");
+    } else {
+      setIsLoading(true);
+
+      await updateDoc(doc(db, "todos", todo.id), {
+        priority: todos[0]?.priority - 1,
+        pinned: true,
+      });
+      setIsLoading(false);
+    }
   };
 
   const removePin = async (todo) => {
@@ -104,6 +109,9 @@ function App() {
     }
     return todos[i]?.priority - 1 || todos[todos.length - 1].priority + 1;
   };
+
+  console.log("Todos:", todos);
+
   return (
     <>
       <div className="App">
@@ -127,11 +135,7 @@ function App() {
           ))}
         </div>
         <div>
-          <AddTodo
-            prip={
-              todos.length === 0 ? 1 : todos[todos.length - 1]?.priority + 1
-            }
-          />
+          <AddTodo prip={todos.length === 0 ? 1 : todos[0]?.priority - 1} />
         </div>
       </div>
       )
